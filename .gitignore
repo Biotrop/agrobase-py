@@ -1,0 +1,12 @@
+# Pydhon artifacts
+**/__pycache__
+*.pyc
+build
+dist
+*egg-info
+
+# Pipenv artifacts
+Pipfile.lock
+
+# Environment and credentials
+.env
