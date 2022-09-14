@@ -21,7 +21,7 @@ if __name__ == "__main__":
     setup(
         author="Biotrop - Bioinformatic Team",
         author_email="bioinfo@biotrop.com.br",
-        name="abrobase",
+        name="agrobase",
         version=__version__,
         description="Biotrop Agrobase",
         long_description=README,
@@ -33,4 +33,5 @@ if __name__ == "__main__":
             "Operating System :: OS Independent",
         ],
         python_requires=">=3.8",
+        setup_requires=["wheel"],
     )

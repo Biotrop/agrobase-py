@@ -11,6 +11,9 @@ prisma = "*"
 black = "*"
 pre-commit = "*"
 python-semantic-release = "*"
+twine = "*"
+abrobase = {editable = true, path = "./src"}
+wheel = "*"
 
 [requires]
 python_version = "3.8"
