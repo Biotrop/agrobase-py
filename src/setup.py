@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
-__version__ = "0.1.0"
+__version__ = "0.0.6"
 
 import sys
 
@@ -12,7 +12,6 @@ except ImportError:
         "We need the Python library setuptools to be installed. "
         + "Try running: python -m ensurepip"
     )
-
 
 with open("README.md", "r") as readme_file:
     README = readme_file.read()

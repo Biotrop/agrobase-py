@@ -10,6 +10,7 @@ prisma = "*"
 [dev-packages]
 black = "*"
 pre-commit = "*"
+python-semantic-release = "*"
 
 [requires]
 python_version = "3.8"
