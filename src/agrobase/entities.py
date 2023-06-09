@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
-from typing import Any, List, NamedTuple, NoReturn, Union
+from typing import Any, Generic, NamedTuple, TypeVar
 
 from .either import Either
 from .exceptions import (
@@ -12,224 +12,211 @@ from .exceptions import (
     UpdatingError,
 )
 
-# ------------------------------------------------------------------------------
-# DEFAULT RESPONSE TYPES
-# ------------------------------------------------------------------------------
+# ? ----------------------------------------------------------------------------
+# ? DEFAULT RESPONSE TYPES
+# ? ----------------------------------------------------------------------------
 
 
-class CreateResponse(NamedTuple):
+T = TypeVar("T")
+
+
+class CreateResponse(NamedTuple, Generic[T]):
     """A interface for creation return methods."""
 
     created: bool
-    instance: Any
+    instance: Generic[T]  # type: ignore
 
 
-class GetOrCreateResponse(NamedTuple):
+class CreateManyResponse(NamedTuple, Generic[T]):
+    """A interface for batch creation return methods."""
+
+    created: bool
+    instance: list[Generic[T]]  # type: ignore
+
+
+class GetOrCreateResponse(NamedTuple, Generic[T]):
     """A interface for get_or_creation return methods."""
 
     created: bool
-    instance: Any
+    instance: Generic[T]  # type: ignore
 
 
-class FetchResponse(NamedTuple):
+class FetchResponse(NamedTuple, Generic[T]):
     """A interface for fetch return methods."""
 
     fetched: bool
-    instance: Union[NoReturn, Any]
+    instance: Generic[T] | None  # type: ignore
 
 
-class FetchManyResponse(NamedTuple):
+class FetchManyResponse(NamedTuple, Generic[T]):
     """A interface for fetch return methods."""
 
     fetched: bool
-    instance: Union[NoReturn, List[Any]]
+    instance: list[Generic[T]] | None  # type: ignore
 
 
-class UpdateResponse(NamedTuple):
+class UpdateResponse(NamedTuple, Generic[T]):
     """A interface for update return methods."""
 
     updated: bool
-    instance: Any
+    instance: Generic[T]  # type: ignore
 
 
-class UpdateManyResponse(NamedTuple):
+class UpdateManyResponse(NamedTuple, Generic[T]):
     """A interface for update return methods."""
 
     updated: bool
     records: int
 
 
-class DeleteResponse(NamedTuple):
+class DeleteResponse(NamedTuple, Generic[T]):
     """A interface for delete return methods."""
 
     deleted: bool
-    instance: Any
+    instance: Generic[T]  # type: ignore
 
 
-class ExecuteResponse(NamedTuple):
+class ExecuteResponse(NamedTuple, Generic[T]):
     """A interface for execution return methods."""
 
     executed: bool
-    instance: Any
+    instance: Generic[T]  # type: ignore
 
 
 class Fetching(metaclass=ABCMeta):
     """The registration interface."""
 
-    # --------------------------------------------------------------------------
-    # CLASS ATTRIBUTES
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? LIFE CYCLE HOOK METHODS
+    # ? ------------------------------------------------------------------------
 
-    tclass: Any
+    def __init_subclass__(cls) -> None:
+        pass
 
-    # --------------------------------------------------------------------------
-    # MAGIC METHODS
-    # --------------------------------------------------------------------------
-
-    def __init_subclass__(cls, tclass: Any) -> None:
-        cls.tclass = tclass
-
-    # --------------------------------------------------------------------------
-    # ABSTRACT METHODS
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? ABSTRACT METHODS
+    # ? ------------------------------------------------------------------------
 
     @abstractmethod
     def show(
-        self, term: str = None, page: int = 1, size: int = 10, **kwargs: Any
-    ) -> Either[FetchingError, FetchManyResponse]:
-
+        self,
+        **kwargs: Any,
+    ) -> Either[FetchingError, FetchManyResponse[Generic[T]]]:  # type: ignore
         raise NotImplementedError
 
     @abstractmethod
     def get(
-        self, pk: int = None, other: str = None, **kwargs: Any
-    ) -> Either[FetchingError, FetchResponse]:
-
+        self,
+        **kwargs: Any,
+    ) -> Either[FetchingError, FetchResponse[Generic[T]]]:  # type: ignore
         raise NotImplementedError
 
 
 class Registration(metaclass=ABCMeta):
     """The registration interface."""
 
-    # --------------------------------------------------------------------------
-    # CLASS ATTRIBUTES
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? LIFE CYCLE HOOK METHODS
+    # ? ------------------------------------------------------------------------
 
-    tclass: Any
+    def __init_subclass__(cls) -> None:
+        pass
 
-    # --------------------------------------------------------------------------
-    # MAGIC METHODS
-    # --------------------------------------------------------------------------
-
-    def __init_subclass__(cls, tclass: Any) -> None:
-        cls.tclass = tclass
-
-    # --------------------------------------------------------------------------
-    # ABSTRACT METHODS
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? ABSTRACT METHODS
+    # ? ------------------------------------------------------------------------
 
     @abstractmethod
     def create(
-        self, registration_type: Registration.tclass, **kwargs: Any
-    ) -> Either[CreationError, CreateResponse]:
+        self,
+        **kwargs: Any,
+    ) -> Either[CreationError, CreateResponse[Generic[T]]]:  # type: ignore
+        raise NotImplementedError
 
+    @abstractmethod
+    def create_many(
+        self,
+        **kwargs: Any,
+    ) -> Either[CreationError, CreateManyResponse[Generic[T]]]:  # type: ignore
         raise NotImplementedError
 
     @abstractmethod
     def get_or_create(
-        self, registration_type: Registration.tclass, **kwargs: Any
-    ) -> Either[CreationError, GetOrCreateResponse]:
-
+        self,
+        **kwargs: Any,
+    ) -> Either[CreationError, GetOrCreateResponse[Generic[T]]]:  # type: ignore
         raise NotImplementedError
 
 
 class Updating(metaclass=ABCMeta):
     """The updating interface."""
 
-    # --------------------------------------------------------------------------
-    # CLASS ATTRIBUTES
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? LIFE CYCLE HOOK METHODS
+    # ? ------------------------------------------------------------------------
 
-    tclass: Any
+    def __init_subclass__(cls) -> None:
+        pass
 
-    # --------------------------------------------------------------------------
-    # MAGIC METHODS
-    # --------------------------------------------------------------------------
-
-    def __init_subclass__(cls, tclass: Any) -> None:
-        cls.tclass = tclass
-
-    # --------------------------------------------------------------------------
-    # ABSTRACT METHODS
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? ABSTRACT METHODS
+    # ? ------------------------------------------------------------------------
 
     @abstractmethod
     def update(
-        self, updating_type: Updating.tclass, **kwargs: Any
-    ) -> Either[UpdatingError, UpdateResponse]:
-
+        self,
+        **kwargs: Any,
+    ) -> Either[UpdatingError, UpdateResponse[Generic[T]]]:  # type: ignore
         raise NotImplementedError
 
 
 class Deletion(metaclass=ABCMeta):
     """The deletion interface."""
 
-    # --------------------------------------------------------------------------
-    # CLASS ATTRIBUTES
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? LIFE CYCLE HOOK METHODS
+    # ? ------------------------------------------------------------------------
 
-    tclass: Any
+    def __init_subclass__(cls) -> None:
+        pass
 
-    # --------------------------------------------------------------------------
-    # MAGIC METHODS
-    # --------------------------------------------------------------------------
-
-    def __init_subclass__(cls, tclass: Any) -> None:
-        cls.tclass = tclass
-
-    # --------------------------------------------------------------------------
-    # ABSTRACT METHODS
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? ABSTRACT METHODS
+    # ? ------------------------------------------------------------------------
 
     @abstractmethod
     def delete(
-        self, deletion_type: Deletion.tclass, **kwargs: Any
-    ) -> Either[DeletionError, DeleteResponse]:
-
+        self,
+        **kwargs: Any,
+    ) -> Either[DeletionError, DeleteResponse[Generic[T]]]:  # type: ignore
         raise NotImplementedError
 
 
 class ExecuteStep(metaclass=ABCMeta):
     """The execution interface."""
 
-    # --------------------------------------------------------------------------
-    # CLASS ATTRIBUTES
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? LIFE CYCLE HOOK METHODS
+    # ? ------------------------------------------------------------------------
 
-    tclass: Any
+    def __init_subclass__(cls) -> None:
+        pass
 
-    # --------------------------------------------------------------------------
-    # MAGIC METHODS
-    # --------------------------------------------------------------------------
-
-    def __init_subclass__(cls, tclass: Any) -> None:
-        cls.tclass = tclass
-
-    # --------------------------------------------------------------------------
-    # ABSTRACT METHODS
-    # --------------------------------------------------------------------------
+    # ? ------------------------------------------------------------------------
+    # ? ABSTRACT METHODS
+    # ? ------------------------------------------------------------------------
 
     @abstractmethod
     def run(
-        self, execution_type: ExecuteStep.tclass, **kwargs: Any
-    ) -> Either[ExecutionError, ExecuteResponse]:
-
+        self,
+        **kwargs: Any,
+    ) -> Either[ExecutionError, ExecuteResponse[Generic[T]]]:  # type: ignore
         raise NotImplementedError
 
 
-# ------------------------------------------------------------------------------
-# SETUP DEFAULT EXPORTS
-# ------------------------------------------------------------------------------
+# ? ----------------------------------------------------------------------------
+# ? SETUP DEFAULT EXPORTS
+# ? ----------------------------------------------------------------------------
 
 
 __all__ = [

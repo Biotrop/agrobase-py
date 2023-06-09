@@ -3,7 +3,7 @@ from __future__ import annotations
 from asyncio import get_event_loop, create_task
 from typing import Optional
 
-from prisma import Client, register
+from prisma import Client, register  # type: ignore
 from prisma.engine.errors import AlreadyConnectedError
 from prisma.errors import ClientAlreadyRegisteredError
 
@@ -25,7 +25,6 @@ class Database:
         """
 
         if cls.__instance is None:
-
             cls.conn = Client()
 
             try:
@@ -57,7 +56,7 @@ class Database:
         except Exception as exc:
             raise exc
 
-    def disconnect(self):
+    def disconnect(self) -> None:
         """Breaks database connection.
         Raises:
             exc: A generalized Exception dispatched only if a unexpected error

@@ -1,10 +1,13 @@
 from enum import IntEnum, auto
 from logging import Logger, getLogger
-from typing import Any
+from typing import Any, Self
+
+from agrobase.settings import LOGGER
+
+from .either import Left, left
 
 
 class ErrorCodes(IntEnum):
-
     # Default option
     UNDEFINED_ERROR = 0
 
@@ -40,12 +43,12 @@ class MappedErrors:
     # CLASS PROPERTIES
     # --------------------------------------------------------------------------
 
-    __code: ErrorCodes = None
+    __code: ErrorCodes | None = None
     __exp: bool = True
     __msg: Any = None
 
     # --------------------------------------------------------------------------
-    # MAGIC METHODS
+    # LIFE CYCLE HOOK METHODS
     # --------------------------------------------------------------------------
 
     def __init__(
@@ -53,32 +56,33 @@ class MappedErrors:
         msg: Any,
         exp: bool = False,
         code: ErrorCodes = ErrorCodes.UNDEFINED_ERROR,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.msg = msg
         self.exp = exp
         self.code = code
 
         if logger is None:
-            logger = getLogger(code.name)  # type: ignore
+            logger = getLogger(code.name)
 
         if exp is True:
-            logger.error(msg)
+            LOGGER.error(msg)
         else:
-            logger.exception(msg)
+            LOGGER.exception(msg)
+
+    def __call__(self) -> Left[Self]:
+        return left(self)
 
     # --------------------------------------------------------------------------
     # GETTERS AND SETTERS
     # --------------------------------------------------------------------------
 
     @property
-    def code(self) -> ErrorCodes:
+    def code(self) -> ErrorCodes | None:
         return self.__code
 
     @code.setter
     def code(self, code: ErrorCodes) -> None:
-
         if not isinstance(code, ErrorCodes):
             raise ValueError(f"{code} is not a valid instance of ErrorCodes.")
 
@@ -90,7 +94,6 @@ class MappedErrors:
 
     @msg.setter
     def msg(self, msg: str) -> None:
-
         if not isinstance(msg, str):
             raise ValueError(f"{msg} is not a string.")
 
@@ -102,18 +105,16 @@ class MappedErrors:
 
     @exp.setter
     def exp(self, exp: bool) -> None:
-
         if not isinstance(exp, bool):
             raise ValueError(f"{exp} is not a boolean.")
 
         self.__exp = exp
 
     # --------------------------------------------------------------------------
-    # PUBLIC METHODS
+    # PUBLIC INSTANCE METHODS
     # --------------------------------------------------------------------------
 
     def update_msg(self, msg: Any, prev: Any = None) -> str:
-
         base_msg = "type({type} {code}): {{msg}}".format(
             type=type(self).__name__, code=self.code
         )
@@ -131,7 +132,6 @@ class MappedErrors:
     # --------------------------------------------------------------------------
 
     def __stringify_msg(self, msg: Any) -> str:
-
         if isinstance(msg, str):
             return msg
 
@@ -160,16 +160,15 @@ class CreationError(MappedErrors):
         msg: Any = "Error detected during record creation.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.CREATION_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 
@@ -179,16 +178,15 @@ class DeletionError(MappedErrors):
         msg: Any = "Error detected during record deletion.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.DELETING_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 
@@ -198,16 +196,15 @@ class FetchingError(MappedErrors):
         msg: Any = "Error detected during record fetching.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.FETCHING_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 
@@ -217,16 +214,15 @@ class UpdatingError(MappedErrors):
         msg: Any = "Error detected during record updating.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.UPDATING_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 
@@ -241,16 +237,15 @@ class ExecutionError(MappedErrors):
         msg: Any = "Error detected during step execution.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.EXECUTION_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 
@@ -260,16 +255,15 @@ class UseCaseError(MappedErrors):
         msg: Any = "Error detected during use-case execution.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.USE_CASE_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 
@@ -284,16 +278,15 @@ class InvalidArgumentError(MappedErrors):
         msg: Any = "Invalid argument detected.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.INVALID_ARGUMENT_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 
@@ -303,16 +296,15 @@ class InvalidRecordInstanceError(MappedErrors):
         msg: Any = "Invalid record instance.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.INVALID_RECORD_INSTANCE_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 
@@ -322,16 +314,15 @@ class InvalidRepositoryError(MappedErrors):
         msg: Any = "Invalid repository detected.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.INVALID_REPOSITORY_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 
@@ -341,16 +332,15 @@ class LockFileError(MappedErrors):
         msg: Any = "Error detected during use-case execution.",
         exp: bool = False,
         prev: Any = None,
-        logger: Logger = None,
+        logger: Logger | None = None,
     ) -> None:
-
         self.code = ErrorCodes.LOCK_FILE_ERROR
 
         super().__init__(
             msg=self.update_msg(msg, prev),
             code=self.code,
             exp=exp,
-            logger=logger,
+            logger=LOGGER if logger is None else logger,
         )
 
 

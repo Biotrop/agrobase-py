@@ -9,14 +9,15 @@ prisma = "*"
 
 [dev-packages]
 black = "*"
+mypy = "*"
 pre-commit = "*"
 python-semantic-release = "*"
 twine = "*"
-abrobase = {editable = true, path = "./src"}
 wheel = "*"
+agrobase-py = {editable = true, path = "."}
 
 [requires]
-python_version = "3.8"
+python_version = "3.11"
 
 [pipenv]
 allow_prereleases = true
