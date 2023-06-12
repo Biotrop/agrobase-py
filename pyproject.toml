@@ -46,9 +46,12 @@ dependencies = {file = ["requirements.txt"]}
 [tool.commitizen]
 
 name = "cz_conventional_commits"
-version = "0.2.0"
+version = "0.3.0"
 tag_format = "v$version"
 bump_message = "bump: $current_version → $new_version [skip-ci]"
+version_files = [
+    "pyproject.toml:version"
+]
 
 
 [tool.mypy]
