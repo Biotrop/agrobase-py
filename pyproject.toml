@@ -14,7 +14,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 
-name = "agrobase-py"
+name = "agrobase"
+version = "1.0.0"
 authors = [
     { name = "Biotrop - Bioinformatic Team", email = "bioinfo@biotrop.com.br" },
 ]
@@ -22,7 +23,7 @@ description = "The Biotrop base package for clean architecture in Python."
 requires-python = ">=3.11"
 keywords = ["Biotrop", "Bioinformatics", "Agroreporter"]
 classifiers = ["Programming Language :: Python :: 3.11"]
-dynamic = ["version", "dependencies"]
+dynamic = ["dependencies"]
 
 [tool.setuptools.dynamic]
 
@@ -46,7 +47,7 @@ dependencies = {file = ["requirements.txt"]}
 [tool.commitizen]
 
 name = "cz_conventional_commits"
-version = "0.3.0"
+version = "1.0.0"
 tag_format = "v$version"
 bump_message = "bump: $current_version → $new_version [skip-ci]"
 version_files = [
