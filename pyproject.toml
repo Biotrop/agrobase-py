@@ -44,16 +44,6 @@ dependencies = {file = ["requirements.txt"]}
 # ? Code consistence
 # ? ----------------------------------------------------------------------------
 
-[tool.commitizen]
-
-name = "cz_conventional_commits"
-tag_format = "v$version"
-bump_message = "bump: $current_version → $new_version [skip-ci]"
-version_files = [
-    "pyproject.toml:version"
-]
-
-
 [tool.mypy]
 python_version = 3.11
 exclude = ["build/", "dist/", "docs/", "venv/"]
