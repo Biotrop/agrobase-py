@@ -3,6 +3,19 @@
 This package contains base elements (Connectors, Either, Exceptions, Crops and
 Abstract Entities) for the environment building.
 
+## Upgrade package version
+
+
+```bash
+cz bump --check-consistency --changelog --dry-run
+```
+
+```bash
+cz bump --increment PATCH
+cz bump --increment MINOR
+cz bump --increment MAJOR
+```
+
 ## Build a deploy a distribution artifact
 
 For building a distribution package use the wheel builder. The artifact
