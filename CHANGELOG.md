@@ -1,3 +1,9 @@
+## v2.0.2 (2023-07-14)
+
+### Refactor
+
+- refactor enumerator to put individual enums into dedicated files
+
 ## v2.0.1 (2023-06-19)
 
 ## v2.0.0 (2023-06-19)
