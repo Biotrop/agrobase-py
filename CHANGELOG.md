@@ -1,3 +1,9 @@
+## v2.1.1 (2023-07-19)
+
+### Fix
+
+- include none as mimetype for the assays response parsing
+
 ## v2.1.0 (2023-07-19)
 
 ### Feat
