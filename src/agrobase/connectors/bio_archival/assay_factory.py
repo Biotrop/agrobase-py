@@ -31,7 +31,7 @@ async def fetch_assays_list(
                     + f"{resp.status} instead.",
                 )()
 
-            assays = await resp.json()
+            assays = await resp.json(content_type=None)
 
             if not isinstance(assays, list):
                 return ab_exc.FetchingError(
