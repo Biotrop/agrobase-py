@@ -1,3 +1,9 @@
+## v2.1.0 (2023-07-19)
+
+### Feat
+
+- implements the assay fetching from bio-archival api and their availability to final users
+
 ## v2.0.2 (2023-07-14)
 
 ### Refactor

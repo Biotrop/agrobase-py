@@ -15,7 +15,7 @@ build-backend = "setuptools.build_meta"
 [project]
 
 name = "agrobase"
-version = "2.0.2"
+version = "2.1.0"
 authors = [
     { name = "Biotrop - Bioinformatic Team", email = "bioinfo@biotrop.com.br" },
 ]
