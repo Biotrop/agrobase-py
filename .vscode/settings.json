@@ -1,8 +1,4 @@
 {
-    "python.formatting.provider": "black",
-    "cSpell.words": [
-        "agrobase",
-        "tclass",
-        "unidecode"
-    ]
+  "python.formatting.provider": "black",
+  "cSpell.words": ["agrobase", "aiohttp", "tclass", "unidecode"]
 }

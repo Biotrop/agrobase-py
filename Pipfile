@@ -7,6 +7,8 @@ name = "pypi"
 unidecode = "*"
 pydantic = "<2.0"
 prisma = "*"
+attrs = "*"
+aiohttp = "==3.8.4"
 
 [dev-packages]
 black = "*"
@@ -15,10 +17,15 @@ pre-commit = "*"
 python-semantic-release = "*"
 twine = "*"
 wheel = "*"
-agrobase-py = {editable = true, path = "."}
+agrobase = {editable = true, path = "."}
 
 [requires]
 python_version = "3.11"
 
 [pipenv]
 allow_prereleases = true
+
+[scripts]
+test = """
+python -m unittest
+"""
