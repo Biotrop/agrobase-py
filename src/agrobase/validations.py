@@ -35,3 +35,18 @@ def should_be_int(value: str) -> bool:
         return True
     except ValueError:
         return False
+
+
+def camel_to_kebab(name: str) -> str:
+    """Convert a camel case string to kebab case.
+
+    Args:
+        name (str): The string to be converted.
+
+    Returns:
+        str: The converted string.
+
+    """
+
+    name = sub("(.)([A-Z][a-z]+)", r"\1-\2", name)
+    return sub("([a-z0-9])([A-Z])", r"\1-\2", name).lower()
