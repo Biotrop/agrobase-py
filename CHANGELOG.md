@@ -1,3 +1,9 @@
+## v2.2.0 (2023-07-20)
+
+### Feat
+
+- inplements the camel-to-kebab case converter as an validation option
+
 ## v2.1.1 (2023-07-19)
 
 ### Fix
