@@ -1,3 +1,9 @@
+## v2.2.1 (2023-09-12)
+
+### Fix
+
+- include requirements to be set dinamically durint the package installation
+
 ## v2.2.0 (2023-07-20)
 
 ### Feat
