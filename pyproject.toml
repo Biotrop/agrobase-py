@@ -24,6 +24,10 @@ requires-python = ">=3.11"
 keywords = ["Biotrop", "Bioinformatics", "Agroreporter"]
 classifiers = ["Programming Language :: Python :: 3.11"]
 
+[tool.setuptools.dynamic]
+
+dependencies = { file = ["requirements.txt"] }
+
 # ? ----------------------------------------------------------------------------
 # ? Assets
 # ? ----------------------------------------------------------------------------
@@ -43,7 +47,7 @@ classifiers = ["Programming Language :: Python :: 3.11"]
 python_version = 3.11
 exclude = ["build/", "dist/", "docs/", "venv/"]
 ignore_missing_imports = "True"
-follow_imports  = "normal"
+follow_imports = "normal"
 warn_redundant_casts = "True"
 warn_unused_ignores = "False"
 disallow_any_generics = "True"
@@ -62,4 +66,4 @@ warn_untyped_fields = "True"
 
 [tool.flake8]
 ignore = "E722, W503, E501, E203"
-per-file-ignore="**/__init__.py: F401"
+per-file-ignore = "**/__init__.py: F401"
