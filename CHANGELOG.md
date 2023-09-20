@@ -1,3 +1,9 @@
+## v2.2.2 (2023-09-20)
+
+### Fix
+
+- fix requirements to be dynamically included in pyproject file
+
 ## v2.2.1 (2023-09-12)
 
 ### Fix
