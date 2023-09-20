@@ -23,6 +23,7 @@ description = "The Biotrop base package for clean architecture in Python."
 requires-python = ">=3.11"
 keywords = ["Biotrop", "Bioinformatics", "Agroreporter"]
 classifiers = ["Programming Language :: Python :: 3.11"]
+dynamic = ["dependencies"]
 
 [tool.setuptools.dynamic]
 
