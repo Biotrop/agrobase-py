@@ -23,27 +23,20 @@ description = "The Biotrop base package for clean architecture in Python."
 requires-python = ">=3.11"
 keywords = ["Biotrop", "Bioinformatics", "Agroreporter"]
 classifiers = ["Programming Language :: Python :: 3.11"]
+# Only the direct runtime imports are declared. The previous list was a
+# `pip freeze` snapshot mixing dev tooling, transitive deps and beta
+# pre-releases (notably `pydantic==2.0b2` and `prisma==0.8.2`) which
+# blocked consumers in the monorepo from upgrading. The wheel published
+# to the Azure DevOps feed was built with `Requires: ` empty for exactly
+# this reason; the relaxed list below matches that intent while still
+# expressing the real surface (`attrs`, `prisma`, `unidecode`,
+# `python-dotenv`) so a clean `pip install .` outside the monorepo keeps
+# working.
 dependencies = [
-    "annotated-types==0.5.0 ; python_version >= '3.7'",
-    "anyio==3.7.0 ; python_version >= '3.7'",
-    "certifi==2024.7.4 ; python_version >= '3.6'",
-    "click==8.1.3 ; python_version >= '3.7'",
-    "h11==0.16.0 ; python_version >= '3.7'",
-    "httpcore==0.17.2 ; python_version >= '3.7'",
-    "httpx==0.24.1 ; python_version >= '3.7'",
-    "idna==3.7 ; python_version >= '3.5'",
-    "jinja2==3.1.6 ; python_version >= '3.7'",
-    "markupsafe==2.1.3 ; python_version >= '3.7'",
-    "nodeenv==1.8.0 ; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6'",
-    "prisma==0.8.2",
-    "pydantic==2.0b2 ; python_version >= '3.7'",
-    "pydantic-core==0.38.0 ; python_version >= '3.7'",
-    "python-dotenv==1.2.2 ; python_version >= '3.8'",
-    "setuptools==78.1.1 ; python_version >= '3.7'",
-    "sniffio==1.3.0 ; python_version >= '3.7'",
-    "tomlkit==0.11.8 ; python_version >= '3.7'",
-    "typing-extensions==4.6.3 ; python_version >= '3.7'",
-    "unidecode==1.3.6",
+    "attrs>=23.1",
+    "prisma>=0.8,<1.0",
+    "python-dotenv>=1.0",
+    "unidecode>=1.3,<2.0",
 ]
 
 
