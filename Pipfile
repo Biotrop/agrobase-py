@@ -15,8 +15,6 @@ black = "*"
 mypy = "*"
 pre-commit = "*"
 python-semantic-release = "*"
-twine = "*"
-wheel = "*"
 agrobase = {editable = true, path = "."}
 
 [requires]
