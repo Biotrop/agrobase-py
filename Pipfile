@@ -8,7 +8,7 @@ unidecode = "*"
 pydantic = "<2.0"
 prisma = "*"
 attrs = "*"
-aiohttp = "==3.8.4"
+aiohttp = "==3.13.4"
 
 [dev-packages]
 black = "*"
